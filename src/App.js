@@ -1,10 +1,22 @@
 import React from 'react'
 import Header from './Header'
 import Post from './Post'
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 
 class App extends React.Component {
   constructor() {
     super()
+
+    // initialize bookmarks in local storage if first time running
+    // or local storage was cleared
+    if (!window.localStorage.getItem('bookmarks')) {
+      window.localStorage.setItem('bookmarks', JSON.stringify([]));
+    }
+
+    if (!window.localStorage.getItem('seenPosts')) {
+      window.localStorage.setItem('seenPosts', JSON.stringify([]))
+    }
 
     this.state = {
       allPosts: [],
@@ -21,8 +33,6 @@ class App extends React.Component {
         const fetchedPosts = initialPosts.map(id => this.getPost(id));
 
         Promise.all(fetchedPosts).then(posts => {
-          console.log(posts);
-
           this.setState({
             allPosts: json,
             posts,
@@ -44,12 +54,25 @@ class App extends React.Component {
       options
     );
 
-    this.observer.observe(this.loadingRef);
+    const postsOptions = {
+      root: document.getElementById('posts-list'),
+      rootMargin: "0px",
+      threshold: 1.0
+    };
+
+    this.postObserver = new IntersectionObserver(
+      this.handlePostObserver.bind(this),
+      postsOptions
+    );
+
+     this.observer.observe(this.loadingRef);
   }
 
-  handleObserver(entities, observer) {
-    console.log('observed!')
+  handlePostObserver(entries, observer) {
+    console.log(entries);
+  }
 
+  handleObserver() {
     if (this.state.posts.length) {
 
       const next30Posts = this.state.allPosts
@@ -58,8 +81,6 @@ class App extends React.Component {
         
       Promise.all(next30Posts)
         .then(posts => {
-          console.log(posts);
-
           this.setState({
             posts: [...this.state.posts, ...posts],
             items: this.state.items + 30,
@@ -71,45 +92,38 @@ class App extends React.Component {
   getPost(id) {
     return fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
       .then(res => res.json())
-      .then(json => {
-        const maybeComments = json.kids;
-
-        if (maybeComments && maybeComments.length) {
-          const maybeCommentPromises = maybeComments.map(commentId => {
-            return fetch(`https://hacker-news.firebaseio.com/v0/item/${commentId}.json?print=pretty`)
-              .then(res => res.json());
-          })
-
-          return Promise.all(maybeCommentPromises)
-            .then(comments => {
-              return Promise.resolve({
-                ...json,
-                comments,
-              });
-            });
-        }
-
-        return Promise.resolve(json);
-      });
   }
   
   renderPosts(posts) {
     return posts.map(post => (
-      <Post post={post}/>
+      <Post post={post} observer={this.postObserver}/>
     ))
   }
 
   render () {
     return (
-      <div>
-        <Header />
-        {!this.state.loading ? <p>loading...</p> : this.renderPosts(this.state.posts)}
-        <div 
-          id="load-more"
-          ref={loadingRef => (this.loadingRef = loadingRef)}
-        >          
-        </div>
-      </div>
+      <BrowserRouter>
+       <Switch>
+          <Route path="/seen">
+            <h1>Seen Posts</h1>
+          </Route>
+          <Route path="/">
+            <div>
+              <Header />
+              {!this.state.loading ? <p className="loading">loading...</p> :
+                <ul id="posts-list">
+                  {this.renderPosts(this.state.posts)}
+                </ul>
+              }
+              <div 
+                id="load-more"
+                ref={loadingRef => (this.loadingRef = loadingRef)}
+              >   
+              </div>
+            </div>
+          </Route>
+        </Switch>
+      </BrowserRouter> 
     )
   }
 }
