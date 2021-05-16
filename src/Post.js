@@ -61,6 +61,8 @@ class Post extends React.Component {
     })
   }
 
+  // function to display comments for each post and toggle 
+  // comments from shown to none
   renderComments() {
     if(this.state.comments.length) {
       return this.state.comments.map(comment => {
@@ -79,14 +81,20 @@ class Post extends React.Component {
               >
               {`by ${comment.by}`}
             </a>
+            <span>
+            {` ${new Date(comment?.time * 1000).toLocaleDateString('en-US', { hour: 'numeric', minute: 'numeric'})}`} &nbsp;
+            </span>
             <p>{comment?.text}</p>
           </div>
         )
       })
     }
 
+    // if post does not have comments, return nothing
     return null
   }
+
+  // function to toggle hide/show comments
 
   hideComments() {
     this.setState({
@@ -131,7 +139,6 @@ class Post extends React.Component {
             }
 
             {this.renderComments()} 
-              &nbsp;
           </span>
             
           </p>

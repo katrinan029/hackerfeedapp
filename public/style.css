@@ -2,10 +2,11 @@
   box-sizing: border-box;
   color: #333;
   font-family: "Poppins", serif;
+  color: #2C2C34;
 }
 
 body {
-  background-color: whitesmoke;
+  background-color: #494850;
 }
 
 #root {
@@ -13,7 +14,7 @@ body {
 }
 
 h1 {
-  color: midnightblue;
+  color: white;
   font-family: "Poppins", serif;
 }
 
@@ -47,15 +48,17 @@ button {
   background: none;
   font-size: 10px;
   cursor: pointer;
+  padding-left: 0px;
 }
 
 li {
   list-style: none;
 }
+
 .comment {
   margin: 10px;
   padding: 20px;
-  background-color: palegoldenrod;
+  background-color: #D8D8F6;
 }
 
 .hide-comments {
@@ -66,8 +69,12 @@ li {
   font-weight: bold;
 }
 
-.nav-link {
+.nav-link-container {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.nav-link {
+  color: white;
 }
