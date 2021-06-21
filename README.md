@@ -20,3 +20,7 @@ The web application was built with an inifite scrolling feature using the  Hacke
 
 Users are also able to bookmark a post. When users refresh the page, they can see the posts they previously bookmarked to still be bookmarked.
 
+## App Deployment
+
+The web application is deployed to Netlify. Visit this link to checkout the app: 
+[https://hackerfeedapp.netlify.app/](https://hackerfeedapp.netlify.app/)
