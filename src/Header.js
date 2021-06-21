@@ -9,9 +9,6 @@ function Header() {
         <NavLink className="nav-link" to="/" activeClassName="active">
           New Posts
         </NavLink> &nbsp; &nbsp; &nbsp;
-        <NavLink className="nav-link" to="/seen" activeClassName="active">
-          Seen Posts
-        </NavLink>
       </div>
     </div>
   )

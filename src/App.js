@@ -26,9 +26,6 @@ class App extends React.Component {
       <BrowserRouter>
         <Header />
         <Switch>
-           <Route path="/seen">
-             <h1>Seen Posts</h1>
-           </Route>
            <Route path="/">
              <div>
                <NewPosts />
