@@ -1,5 +1,5 @@
-import React from 'react'
-import {FaRegBookmark, FaBookmark} from 'react-icons/fa'
+import React from 'react';
+import {FaRegBookmark, FaBookmark} from 'react-icons/fa';
 
 class Post extends React.Component {
   constructor(props){
@@ -14,7 +14,7 @@ class Post extends React.Component {
       comments: [],
       fetchingComments: false,
       hideComments: true,
-    }
+    };
 
     this.handleBookmark = this.handleBookmark.bind(this);
     this.fetchComments = this.fetchComments.bind(this);
@@ -28,7 +28,7 @@ class Post extends React.Component {
       const fetchedComments = this.props.post.kids.map(commentId => {
         return fetch(`https://hacker-news.firebaseio.com/v0/item/${commentId}.json?print=pretty`)
           .then(response => response.json())
-      })
+      });
   
       Promise.all(fetchedComments).then(comments => {
         this.setState({
@@ -36,7 +36,7 @@ class Post extends React.Component {
           hideComments: false,
         })
       })
-    })
+    });
   }
 
   handleBookmark() {
@@ -58,7 +58,7 @@ class Post extends React.Component {
         bookmarks.push(this.props.post.id);
         window.localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
       }
-    })
+    });
   }
 
   // function to display comments for each post and toggle 
@@ -91,7 +91,7 @@ class Post extends React.Component {
     }
 
     // if post does not have comments, return nothing
-    return null
+    return null;
   }
 
   // function to toggle hide/show comments
@@ -99,7 +99,7 @@ class Post extends React.Component {
   hideComments() {
     this.setState({
       hideComments: !this.state.hideComments,
-    })
+    });
   }
   
   render() {

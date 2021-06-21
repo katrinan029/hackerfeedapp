@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Post from './Post'
 
 class NewPosts extends React.Component {
@@ -11,7 +11,7 @@ class NewPosts extends React.Component {
       comments: [],
       items: 30,
       loading: false,
-    }
+    };
 
     fetch("https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty")
       .then(res => res.json())
@@ -58,7 +58,7 @@ class NewPosts extends React.Component {
 
       const next30Posts = this.state.allPosts
         .slice(this.state.items, this.state.items + 30)
-        .map(id => this.getPost(id))
+        .map(id => this.getPost(id));
         
       Promise.all(next30Posts)
         .then(posts => {
@@ -66,19 +66,19 @@ class NewPosts extends React.Component {
             posts: [...this.state.posts, ...posts],
             items: this.state.items + 30,
           })
-        })
+        });
     }
   }
 
   getPost(id) {
     return fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
-      .then(res => res.json())
+      .then(res => res.json());
   }
   
   renderPosts(posts) {
     return posts.map(post => (
       <Post post={post} observer={this.postObserver}/>
-    ))
+    ));
   }
 
   render() {
@@ -97,7 +97,7 @@ class NewPosts extends React.Component {
         >
         </div>
     </div>
-    )
+    );
   }
 }
 
