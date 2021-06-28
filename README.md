@@ -16,7 +16,7 @@ You will also see any lint errors in the console.
 
 ## Web Application Features
 
-The web application was built with an inifite scrolling feature using the  HackerNews API. Users can also see the comments in-place if they want to.
+The web application was built with an inifinite scrolling feature using the  HackerNews API. Users can also see the comments in-place if they want to.
 
 Users are also able to bookmark a post. When users refresh the page, they can see the posts they previously bookmarked to still be bookmarked.
 
